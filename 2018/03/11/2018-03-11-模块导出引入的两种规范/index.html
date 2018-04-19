@@ -11,12 +11,12 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"模块导出引入的两种规范exports、module.exports 和 export、export default\n\nrequire: node 和 es6 都支持的引入export / import : 只有es6 支持的导出引入module.exports / exports: 只有 node 支持的导出\n\nexports、module.exports - CommonJS模块规范Node应用由模块组成，采用CommonJS模块规范。\n每个文件就是一个模块，有自己的作用域。在一个文件里面定义的变量、函数、类，都是私有的，对其他文件不可见。\n\nCommonJS定义的模块分为: 模块标识(module)、模块定义(exports) 、模块引用(require)  \n\n为了方便，Node为每个模块提供一个exports变量，指向module.exports。这等同在每个模块头部，有一行这样的命令。\n1var exports = module.exports;\n造成的结果是，在对外输出模块接口时，可以向exports对象添加方法。\n1234567exports.area = function (r) &#123;  return Math.PI * r * r;&#125;;exports.circumference = function (r) &#123;  return 2 * Math.PI * r;&#125;;\n注意，不能直接将exports变量指向一个值，因为这样等于切断了exports与module.exports的联系。1exports = function(x) &#123;console.log(x)&#125;;\n上面这样的写法是无效的，因为exports不再指向module.exports了。\n因此，我们在编写模块时用到的exports对象实际上只是对module.exports的引用。require方能看到的只有module.exports这个对象。\n12345678910111213//utils.jslet a = 100;console.log(module.exports); //能打印出结果为：&#123;&#125;console.log(exports); //能打印出结果为：&#123;&#125;exports.name = 'Tom'; //这里辛苦劳作帮 module.exports 的内容给改成 &#123;name: 'Tom'&#125;exports = 'other'; //这里把exports的指向指走//test.jsvar utils = require('/utils');console.log(utils) // 打印为 &#123;name: 'Tom'&#125;\nexport、export default - ES中的模块导出导入模块功能主要由两个命令构成：export和import。\n\nexport与export default均可用于导出常量、函数、文件、模块等在一个文件或模块中，export、import可以有多个，export default仅有一个通过export方式导出，在导入时要加{ }，export default则不需要export能直接导出变量表达式，export default不行。\n\nexport 命令export命令规定的是对外的接口，必须与模块内部的变量建立一一对应关系。12345678910// 写法一export var m = 1;// 写法二var m = 1;export &#123;m&#125;;// 写法三var n = 1;export &#123;n as m&#125;;\nexport default 命令使用export default命令，为模块指定默认输出。\n123456789// export-default.jsexport default function () &#123;  console.log('foo');&#125;// 不支持以下写法export default const a = &#123;&#125;// 可以这么写const a = &#123;&#125;export default a\nimport 命令由于import是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构。12345678910111213// 报错import &#123; 'f' + 'oo' &#125; from 'my_module';// 报错let module = 'my_module';import &#123; foo &#125; from module;// 报错if (x === 1) &#123;  import &#123; foo &#125; from 'module1';&#125; else &#123;  import &#123; foo &#125; from 'module2';&#125;\n上面三种写法都会报错，因为它们用到了表达式、变量和if结构。在静态分析阶段，这些语法都是没法得到值的。\n","dateCreated":"2018-03-11T00:00:00+08:00","dateModified":"2018-04-19T20:19:34+08:00","datePublished":"2018-03-11T00:00:00+08:00","description":"模块导出引入的两种规范","headline":"模块导出引入的两种规范","image":["es.jpeg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/","keywords":"ES6","thumbnailUrl":"es.jpeg"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"模块导出引入的两种规范exports、module.exports 和 export、export default\n\nrequire: node 和 es6 都支持的引入export / import : 只有es6 支持的导出引入module.exports / exports: 只有 node 支持的导出\n\nexports、module.exports - CommonJS模块规范Node应用由模块组成，采用CommonJS模块规范。\n每个文件就是一个模块，有自己的作用域。在一个文件里面定义的变量、函数、类，都是私有的，对其他文件不可见。\n\nCommonJS定义的模块分为: 模块标识(module)、模块定义(exports) 、模块引用(require)  \n\n为了方便，Node为每个模块提供一个exports变量，指向module.exports。这等同在每个模块头部，有一行这样的命令。\n1var exports = module.exports;\n造成的结果是，在对外输出模块接口时，可以向exports对象添加方法。\n1234567exports.area = function (r) &#123;  return Math.PI * r * r;&#125;;exports.circumference = function (r) &#123;  return 2 * Math.PI * r;&#125;;\n注意，不能直接将exports变量指向一个值，因为这样等于切断了exports与module.exports的联系。1exports = function(x) &#123;console.log(x)&#125;;\n上面这样的写法是无效的，因为exports不再指向module.exports了。\n因此，我们在编写模块时用到的exports对象实际上只是对module.exports的引用。require方能看到的只有module.exports这个对象。\n12345678910111213//utils.jslet a = 100;console.log(module.exports); //能打印出结果为：&#123;&#125;console.log(exports); //能打印出结果为：&#123;&#125;exports.name = 'Tom'; //这里辛苦劳作帮 module.exports 的内容给改成 &#123;name: 'Tom'&#125;exports = 'other'; //这里把exports的指向指走//test.jsvar utils = require('/utils');console.log(utils) // 打印为 &#123;name: 'Tom'&#125;\nexport、export default - ES中的模块导出导入模块功能主要由两个命令构成：export和import。\n\nexport与export default均可用于导出常量、函数、文件、模块等在一个文件或模块中，export、import可以有多个，export default仅有一个通过export方式导出，在导入时要加{ }，export default则不需要export能直接导出变量表达式，export default不行。\n\nexport 命令export命令规定的是对外的接口，必须与模块内部的变量建立一一对应关系。12345678910// 写法一export var m = 1;// 写法二var m = 1;export &#123;m&#125;;// 写法三var n = 1;export &#123;n as m&#125;;\nexport default 命令使用export default命令，为模块指定默认输出。\n123456789// export-default.jsexport default function () &#123;  console.log('foo');&#125;// 不支持以下写法export default const a = &#123;&#125;// 可以这么写const a = &#123;&#125;export default a\nimport 命令由于import是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构。12345678910111213// 报错import &#123; 'f' + 'oo' &#125; from 'my_module';// 报错let module = 'my_module';import &#123; foo &#125; from module;// 报错if (x === 1) &#123;  import &#123; foo &#125; from 'module1';&#125; else &#123;  import &#123; foo &#125; from 'module2';&#125;\n上面三种写法都会报错，因为它们用到了表达式、变量和if结构。在静态分析阶段，这些语法都是没法得到值的。\n","dateCreated":"2018-03-11T00:00:00+08:00","dateModified":"2018-04-19T20:19:34+08:00","datePublished":"2018-03-11T00:00:00+08:00","description":"模块导出引入的两种规范","headline":"模块导出引入的两种规范","image":["es.jpeg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/","keywords":"ES6","thumbnailUrl":"es.jpeg"}</script>
     <meta name="description" content="模块导出引入的两种规范">
 <meta name="keywords" content="ES6">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="模块导出引入的两种规范">
-<meta property="og:url" content="http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/index.html">
+<meta property="og:url" content="http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/index.html">
 <meta property="og:site_name" content="Smaug">
 <meta property="og:description" content="模块导出引入的两种规范">
 <meta property="og:locale" content="zh-cn">
@@ -29,11 +29,11 @@
         
     
     
-        <meta property="og:image" content="http://localhost:4000/assets/images/ava.jpeg"/>
+        <meta property="og:image" content="http://goku-gaga.github.io/assets/images/ava.jpeg"/>
     
     
-        <meta property="og:image" content="http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/es.jpeg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/es.jpeg" />
+        <meta property="og:image" content="http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/es.jpeg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/es.jpeg" />
     
     
     
@@ -291,7 +291,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -299,7 +299,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -307,7 +307,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -377,7 +377,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -385,7 +385,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -393,7 +393,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -420,7 +420,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -428,7 +428,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
                 </a>
             </li>
@@ -436,7 +436,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2018/03/11/2018-03-11-模块导出引入的两种规范/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
                 </a>
             </li>

@@ -11,12 +11,12 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"关于使用node-ffi调用dll动态库\n一、为什么要在node.js中调用动态链接库由于之前公司的一个项目中，需要调用第三方的接口API，特别是与硬件设备进行通信，而这些接口 API 基本上都是通过 C++ 动态链接库（DLL）实现的\n当时有两个方案：\n\n由后端人员编写一份服务去掉调用dll，前端页面直接通过发请求到这个服务上进行操作\n在前端部分使用node-ffi直接调用dll动态库文件\n\n最终我们使用了第二个方案！\n二、什么是node-ffiNode FFI Tutorial\n\nnode-ffi provides a powerful set of tools for interfacing with dynamic libraries using pure JavaScript in the Node.js environment. It can be used to build interface bindings for libraries without using any C++ code.\n\n注意事项！  \n\nffi只能调用C风格的模块。\n需要将C源码build成动态链接库以供调用，在Linux下将C源码build成.so文件，在windows下build成.dll文件\n\n三、安装node-ffi1npm install ffi\n四、如何使用node-ffi简单例子：\n\n我们的业务中由这么一个API，参数是一个short类型的端口号，一个int类型的波特率，返回小于0则表示失败，否则是机器的标识码，方法名是 dc_init\n1int USER_API dc_init(short port, int baud);\n\n下面是如何利用ffi在nodejs中调用这个接口，该接口的源码已经被封装成 dcrf32.dll 这个动态链接库了，我们直接调用就好。\n12345678910111213let ref = require('ref')let FFI = require('ffi')let shortType = ref.types.short// dll文件的路径let dllPath = __dirname + '/dll/dcrf32.dll'let lib = new FFI.Library(dllPath, &#123;  'dc_init': ['int', [shortType, 'int']]&#125;)let handle = lib.dc_init(2, 9600)console.log(handle)\n\n\n关于ref的详细api可以参看他们的官方文档：https://github.com/TooTallNate/ref\n","dateCreated":"2018-03-25T00:00:00+08:00","dateModified":"2018-04-19T20:19:13+08:00","datePublished":"2018-03-25T00:00:00+08:00","description":"关于使用node-ffi调用dll动态库","headline":"使用node-ffi调用dll动态库","image":["node.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/","keywords":"node-ffi","thumbnailUrl":"node.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"关于使用node-ffi调用dll动态库\n一、为什么要在node.js中调用动态链接库由于之前公司的一个项目中，需要调用第三方的接口API，特别是与硬件设备进行通信，而这些接口 API 基本上都是通过 C++ 动态链接库（DLL）实现的\n当时有两个方案：\n\n由后端人员编写一份服务去掉调用dll，前端页面直接通过发请求到这个服务上进行操作\n在前端部分使用node-ffi直接调用dll动态库文件\n\n最终我们使用了第二个方案！\n二、什么是node-ffiNode FFI Tutorial\n\nnode-ffi provides a powerful set of tools for interfacing with dynamic libraries using pure JavaScript in the Node.js environment. It can be used to build interface bindings for libraries without using any C++ code.\n\n注意事项！  \n\nffi只能调用C风格的模块。\n需要将C源码build成动态链接库以供调用，在Linux下将C源码build成.so文件，在windows下build成.dll文件\n\n三、安装node-ffi1npm install ffi\n四、如何使用node-ffi简单例子：\n\n我们的业务中由这么一个API，参数是一个short类型的端口号，一个int类型的波特率，返回小于0则表示失败，否则是机器的标识码，方法名是 dc_init\n1int USER_API dc_init(short port, int baud);\n\n下面是如何利用ffi在nodejs中调用这个接口，该接口的源码已经被封装成 dcrf32.dll 这个动态链接库了，我们直接调用就好。\n12345678910111213let ref = require('ref')let FFI = require('ffi')let shortType = ref.types.short// dll文件的路径let dllPath = __dirname + '/dll/dcrf32.dll'let lib = new FFI.Library(dllPath, &#123;  'dc_init': ['int', [shortType, 'int']]&#125;)let handle = lib.dc_init(2, 9600)console.log(handle)\n\n\n关于ref的详细api可以参看他们的官方文档：https://github.com/TooTallNate/ref\n","dateCreated":"2018-03-25T00:00:00+08:00","dateModified":"2018-04-19T20:19:13+08:00","datePublished":"2018-03-25T00:00:00+08:00","description":"关于使用node-ffi调用dll动态库","headline":"使用node-ffi调用dll动态库","image":["node.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/","keywords":"node-ffi","thumbnailUrl":"node.png"}</script>
     <meta name="description" content="关于使用node-ffi调用dll动态库">
 <meta name="keywords" content="node-ffi">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="使用node-ffi调用dll动态库">
-<meta property="og:url" content="http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/index.html">
+<meta property="og:url" content="http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/index.html">
 <meta property="og:site_name" content="Smaug">
 <meta property="og:description" content="关于使用node-ffi调用dll动态库">
 <meta property="og:locale" content="zh-cn">
@@ -29,11 +29,11 @@
         
     
     
-        <meta property="og:image" content="http://localhost:4000/assets/images/ava.jpeg"/>
+        <meta property="og:image" content="http://goku-gaga.github.io/assets/images/ava.jpeg"/>
     
     
-        <meta property="og:image" content="http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/node.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/node.png" />
+        <meta property="og:image" content="http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/node.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/node.png" />
     
     
     
@@ -293,7 +293,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -301,7 +301,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -309,7 +309,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -379,7 +379,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -387,7 +387,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -395,7 +395,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -422,7 +422,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -430,7 +430,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
                 </a>
             </li>
@@ -438,7 +438,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
                 </a>
             </li>

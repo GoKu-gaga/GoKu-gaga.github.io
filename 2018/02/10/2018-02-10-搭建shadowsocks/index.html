@@ -11,12 +11,12 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"搭建shadowsocks\nshadowsocks 服务器安装更新软件源apt-get update```1234#### 然后安装 PIP 环境```sudo apt-get install python-pip\n直接安装 shadowsockspip install shadowsocks```123456#### 直接运行 shadowsocks 服务器启动命令如下：如果要停止运行，将命令中的start改成stop。```sudo ssserver -p 8388 -k password -m rc4-md5 -d start\n使用配置文件运行创建/etc/shadowsocks.json文件，填入如下内容：\n123456789&#123;    &quot;server&quot;:&quot;my_server_ip&quot;,    &quot;server_port&quot;:8388,    &quot;local_address&quot;: &quot;127.0.0.1&quot;,    &quot;local_port&quot;:1080,    &quot;password&quot;:&quot;mypassword&quot;,    &quot;timeout&quot;:300,    &quot;method&quot;:&quot;rc4-md5&quot;&#125;\n\n\n\n字段\n含义\n\n\n\n\nserver\n服务器 IP (IPv4/IPv6)，注意这也将是服务端监听的 IP 地址\n\n\nserver_port\n服务器端口\n\n\nlocal_port\n本地端端口\n\n\npassword\n用来加密的密码\n\n\ntimeout\n超时时间（秒）\n\n\nmethod\n加密方法，可选择 “bf-cfb”, “aes-256-cfb”, “des-cfb”, “rc4″, 等等。\n\n\n\n配置多个用户只需要将配置文件修改为\n12345678910&#123;    &quot;server&quot;:&quot;my_server_ip&quot;,    &quot;port_password&quot;: &#123;        &quot;端口1&quot;: &quot;密码1&quot;,        &quot;端口2&quot;: &quot;密码2&quot;    &#125;,    &quot;timeout&quot;:300,    &quot;method&quot;:&quot;rc4-md5&quot;,    &quot;fast_open&quot;: false&#125;\n创建完毕后，赋予文件权限chmod 755link1234为了支持这些加密方式，你要需要安装```sudo apt–get install python–m2crypto\n在后台运行：1sudo ssserver -c /etc/shadowsocks.json -d start","dateCreated":"2018-02-10T00:00:00+08:00","dateModified":"2018-04-19T20:19:44+08:00","datePublished":"2018-02-10T00:00:00+08:00","description":"搭建shadowsocks","headline":"搭建shadowsocks","image":["ss.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/","keywords":"shadowsocks","thumbnailUrl":"ss.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"搭建shadowsocks\nshadowsocks 服务器安装更新软件源apt-get update```1234#### 然后安装 PIP 环境```sudo apt-get install python-pip\n直接安装 shadowsockspip install shadowsocks```123456#### 直接运行 shadowsocks 服务器启动命令如下：如果要停止运行，将命令中的start改成stop。```sudo ssserver -p 8388 -k password -m rc4-md5 -d start\n使用配置文件运行创建/etc/shadowsocks.json文件，填入如下内容：\n123456789&#123;    &quot;server&quot;:&quot;my_server_ip&quot;,    &quot;server_port&quot;:8388,    &quot;local_address&quot;: &quot;127.0.0.1&quot;,    &quot;local_port&quot;:1080,    &quot;password&quot;:&quot;mypassword&quot;,    &quot;timeout&quot;:300,    &quot;method&quot;:&quot;rc4-md5&quot;&#125;\n\n\n\n字段\n含义\n\n\n\n\nserver\n服务器 IP (IPv4/IPv6)，注意这也将是服务端监听的 IP 地址\n\n\nserver_port\n服务器端口\n\n\nlocal_port\n本地端端口\n\n\npassword\n用来加密的密码\n\n\ntimeout\n超时时间（秒）\n\n\nmethod\n加密方法，可选择 “bf-cfb”, “aes-256-cfb”, “des-cfb”, “rc4″, 等等。\n\n\n\n配置多个用户只需要将配置文件修改为\n12345678910&#123;    &quot;server&quot;:&quot;my_server_ip&quot;,    &quot;port_password&quot;: &#123;        &quot;端口1&quot;: &quot;密码1&quot;,        &quot;端口2&quot;: &quot;密码2&quot;    &#125;,    &quot;timeout&quot;:300,    &quot;method&quot;:&quot;rc4-md5&quot;,    &quot;fast_open&quot;: false&#125;\n创建完毕后，赋予文件权限chmod 755link1234为了支持这些加密方式，你要需要安装```sudo apt–get install python–m2crypto\n在后台运行：1sudo ssserver -c /etc/shadowsocks.json -d start","dateCreated":"2018-02-10T00:00:00+08:00","dateModified":"2018-04-19T20:19:44+08:00","datePublished":"2018-02-10T00:00:00+08:00","description":"搭建shadowsocks","headline":"搭建shadowsocks","image":["ss.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/","keywords":"shadowsocks","thumbnailUrl":"ss.png"}</script>
     <meta name="description" content="搭建shadowsocks">
 <meta name="keywords" content="shadowsocks">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="搭建shadowsocks">
-<meta property="og:url" content="http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/index.html">
+<meta property="og:url" content="http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/index.html">
 <meta property="og:site_name" content="Smaug">
 <meta property="og:description" content="搭建shadowsocks">
 <meta property="og:locale" content="zh-cn">
@@ -29,11 +29,11 @@
         
     
     
-        <meta property="og:image" content="http://localhost:4000/assets/images/ava.jpeg"/>
+        <meta property="og:image" content="http://goku-gaga.github.io/assets/images/ava.jpeg"/>
     
     
-        <meta property="og:image" content="http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/ss.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/ss.png" />
+        <meta property="og:image" content="http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/ss.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/ss.png" />
     
     
     
@@ -307,7 +307,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -315,7 +315,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -323,7 +323,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -393,7 +393,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -401,7 +401,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -409,7 +409,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -436,7 +436,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -444,7 +444,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
                 </a>
             </li>
@@ -452,7 +452,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/02/10/2018-02-10-搭建shadowsocks/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2018/02/10/2018-02-10-搭建shadowsocks/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
                 </a>
             </li>

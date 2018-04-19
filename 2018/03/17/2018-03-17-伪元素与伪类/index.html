@@ -11,12 +11,12 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"伪元素与伪类\n伪类与伪元素\n伪类选择器(pseudo-class)：是对于已有元素的一些状态作出对应的样式变化，如我们最熟悉的鼠标悬停时用到的 :hover   \n\n\n伪元素(pseudo-element)：创建一些不存在于dom中的元素，并为其添加样式。如常用的 ::before\n\n语法伪类1selector:pseudo-class &#123; property: value; &#125;\n伪元素1selector::pseudo-element &#123; property: value; &#125;\n注：目前对于伪元素的语法，也是可以使用单冒号的，如 :before，具体使用依个人爱好，大多数浏览器都支持这两个值。\n某些伪类或伪元素仍然处于试验阶段，在使用前建议先在Can I Use等网站查一查其浏览器兼容性。处于试验阶段的伪类或伪元素会在标题中标注。\n一部分常用的伪类/伪元素伪元素\n\n:first-line 为某个元素的第一行文字使用样式； :first-letter 为某个元素中的文字的首字母或第一个字使用样式； :before 在某个元素之前插入一些内容； :after 在某个元素之后插入一些内容；\n\n状态伪类\n\n:link 选择未访问的链接:visited 选择已访问的链接:hover 选择鼠标指针浮动在其上的元素:active 选择活动的链接:focus 选择获取焦点的输入字段 \n\n结构性伪类选择器\n\n\n四个最基本的：root、not、empty、target    \nfirst-child、last-child、nth-child、nth-last-child、    nth-child(odd)、nth-child(even)、nth-last-child(odd)、nth-last-child(even) \nnth-of-type、nth-last-of-type\n\n\n:root()选择器，从字面上我们就可以很清楚的理解是根选择器，他的意思就是匹配元素E所在文档的根元素。在HTML文档中，根元素始终是。“:root”选择器等同于元素；:not()选择器称为否定选择器，和jQuery中的:not选择器一模一样，可以选择除某个元素之外的所有元素；:empty()选择器表示的就是空。用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，哪怕是一个空格；:target()选择器来对页面某个target元素(该元素的id被当做页面中的超链接来使用)指定样式，该样式只在用户点击了页面中的超链接，并且跳转到target元素后起作用；:first-child()选择器表示的是选择父元素的第一个子元素的元素E。简单点理解就是选择元素中的第一个子元素，记住是子元素，而不是后代元素；:nth-child()选择某个元素的一个或多个特定的子元素；:nth-last-child()从某父元素的最后一个子元素开始计算，来选择特定的元素。\n举个栗子1. 中间文字，左右横线使用伪类，准确来说是使用伪元素，:before和:after可以轻松的实现这个需求。\n1234567891011121314151617181920h3.title span &#123;    position: relative;   /*定位横线（当横线的父元素）*/    display: block;     /*设置为块级元素会独占一行形成上下居中的效果*/    font-size: 3em;    color: #212121;&#125;h3.title span:before, h3.title span:after &#123;    content: '';                 /*CSS伪类用法*/    position: absolute;         /*定位背景横线的位置*/    top: 52%;    background: #494949;       /*宽和高做出来的背景横线*/    width: 9%;    height: 2px;&#125;h3.title span:before&#123;    left: 25%;        /*调整背景横线的左右距离*/&#125;h3.title span:after &#123;    right: 25%;&#125;\n2.鼠标移上链接，出现方括号12345678910111213.link &#123;\tposition: relative;\tdisplay: inline-block;\tcolor: #000;  text-decoration: none;  outline: none;\tfont-size: 32px;\tpadding: 5px 10px;&#125;.link:hover::before, .link:hover::after &#123; position: absolute; &#125;.link:hover::before &#123; content: \"\\5B\"; left: -10px; &#125;.link:hover::after &#123; content: \"\\5D\"; right:  -10px; &#125;\nMDN传送门伪类\n伪元素\n","dateCreated":"2018-03-17T00:00:00+08:00","dateModified":"2018-04-19T20:19:23+08:00","datePublished":"2018-03-17T00:00:00+08:00","description":"伪元素与伪类","headline":"伪元素与伪类","image":["css.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/","keywords":"伪类, css","thumbnailUrl":"css.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"伪元素与伪类\n伪类与伪元素\n伪类选择器(pseudo-class)：是对于已有元素的一些状态作出对应的样式变化，如我们最熟悉的鼠标悬停时用到的 :hover   \n\n\n伪元素(pseudo-element)：创建一些不存在于dom中的元素，并为其添加样式。如常用的 ::before\n\n语法伪类1selector:pseudo-class &#123; property: value; &#125;\n伪元素1selector::pseudo-element &#123; property: value; &#125;\n注：目前对于伪元素的语法，也是可以使用单冒号的，如 :before，具体使用依个人爱好，大多数浏览器都支持这两个值。\n某些伪类或伪元素仍然处于试验阶段，在使用前建议先在Can I Use等网站查一查其浏览器兼容性。处于试验阶段的伪类或伪元素会在标题中标注。\n一部分常用的伪类/伪元素伪元素\n\n:first-line 为某个元素的第一行文字使用样式； :first-letter 为某个元素中的文字的首字母或第一个字使用样式； :before 在某个元素之前插入一些内容； :after 在某个元素之后插入一些内容；\n\n状态伪类\n\n:link 选择未访问的链接:visited 选择已访问的链接:hover 选择鼠标指针浮动在其上的元素:active 选择活动的链接:focus 选择获取焦点的输入字段 \n\n结构性伪类选择器\n\n\n四个最基本的：root、not、empty、target    \nfirst-child、last-child、nth-child、nth-last-child、    nth-child(odd)、nth-child(even)、nth-last-child(odd)、nth-last-child(even) \nnth-of-type、nth-last-of-type\n\n\n:root()选择器，从字面上我们就可以很清楚的理解是根选择器，他的意思就是匹配元素E所在文档的根元素。在HTML文档中，根元素始终是。“:root”选择器等同于元素；:not()选择器称为否定选择器，和jQuery中的:not选择器一模一样，可以选择除某个元素之外的所有元素；:empty()选择器表示的就是空。用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，哪怕是一个空格；:target()选择器来对页面某个target元素(该元素的id被当做页面中的超链接来使用)指定样式，该样式只在用户点击了页面中的超链接，并且跳转到target元素后起作用；:first-child()选择器表示的是选择父元素的第一个子元素的元素E。简单点理解就是选择元素中的第一个子元素，记住是子元素，而不是后代元素；:nth-child()选择某个元素的一个或多个特定的子元素；:nth-last-child()从某父元素的最后一个子元素开始计算，来选择特定的元素。\n举个栗子1. 中间文字，左右横线使用伪类，准确来说是使用伪元素，:before和:after可以轻松的实现这个需求。\n1234567891011121314151617181920h3.title span &#123;    position: relative;   /*定位横线（当横线的父元素）*/    display: block;     /*设置为块级元素会独占一行形成上下居中的效果*/    font-size: 3em;    color: #212121;&#125;h3.title span:before, h3.title span:after &#123;    content: '';                 /*CSS伪类用法*/    position: absolute;         /*定位背景横线的位置*/    top: 52%;    background: #494949;       /*宽和高做出来的背景横线*/    width: 9%;    height: 2px;&#125;h3.title span:before&#123;    left: 25%;        /*调整背景横线的左右距离*/&#125;h3.title span:after &#123;    right: 25%;&#125;\n2.鼠标移上链接，出现方括号12345678910111213.link &#123;\tposition: relative;\tdisplay: inline-block;\tcolor: #000;  text-decoration: none;  outline: none;\tfont-size: 32px;\tpadding: 5px 10px;&#125;.link:hover::before, .link:hover::after &#123; position: absolute; &#125;.link:hover::before &#123; content: \"\\5B\"; left: -10px; &#125;.link:hover::after &#123; content: \"\\5D\"; right:  -10px; &#125;\nMDN传送门伪类\n伪元素\n","dateCreated":"2018-03-17T00:00:00+08:00","dateModified":"2018-04-19T20:19:23+08:00","datePublished":"2018-03-17T00:00:00+08:00","description":"伪元素与伪类","headline":"伪元素与伪类","image":["css.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/","keywords":"伪类, css","thumbnailUrl":"css.png"}</script>
     <meta name="description" content="伪元素与伪类">
 <meta name="keywords" content="伪类,css">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="伪元素与伪类">
-<meta property="og:url" content="http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/index.html">
+<meta property="og:url" content="http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/index.html">
 <meta property="og:site_name" content="Smaug">
 <meta property="og:description" content="伪元素与伪类">
 <meta property="og:locale" content="zh-cn">
@@ -29,11 +29,11 @@
         
     
     
-        <meta property="og:image" content="http://localhost:4000/assets/images/ava.jpeg"/>
+        <meta property="og:image" content="http://goku-gaga.github.io/assets/images/ava.jpeg"/>
     
     
-        <meta property="og:image" content="http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/css.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/css.png" />
+        <meta property="og:image" content="http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/css.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/css.png" />
     
     
     
@@ -298,7 +298,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -306,7 +306,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -314,7 +314,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -384,7 +384,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -392,7 +392,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -400,7 +400,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -427,7 +427,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -435,7 +435,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
                 </a>
             </li>
@@ -443,7 +443,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2018/03/17/2018-03-17-伪元素与伪类/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
                 </a>
             </li>

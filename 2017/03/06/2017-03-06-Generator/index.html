@@ -11,12 +11,12 @@
     
     
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"Generator生成器\nGenerator生成器\n生成器（Generators）: 一个更好的方法来构建遍历器。  —  生成器和迭代器\n\n生成器就是一类特殊的函数，特殊之处在于：\n\n字面量（函数声明/函数表达式）的关键字function后面多了一个*，而且这个*前后允许有空白字符，如：\n123function* foo()&#123;&#125;function *foo()&#123;&#125;function*foo()&#123;&#125;\n\n函数体中多了yield运算符\n\n普通函数的执行模式是: 执行-结束, 生成器的执行模式是:  执行-暂停-结束\n\nyield语句yield语句是Generator函数内部可以暂停执行程序的语句，yield语句后面的值可以是各种数据类型，字符串，整数，布尔值等等都可以。\n看个小栗子：123456789101112function *foo() &#123;    yield 1;    yield 'hello';    yield 'generator';    return true;&#125;let f1 = foo();f1.next();  // Object &#123;value: 1, done: false&#125;f1.next();  // Object &#123;value: \"hello\", done: false&#125;f1.next();  // Object &#123;value: \"generator\", done: false&#125;f1.next();  // Object &#123;value: true, done: true&#125;f1.next();  // Object &#123;value: undefined, done: true&#125;\n这个例子反映了生成器的基本用法，有以下几点值得注意：\n\n在调用foo()时，函数体中的逻辑并不会执行（控制台没有输出），直接调用f1.next()时才会执行\nf1是一个对象，它由生成器foo()调用而来，注意foo()并没有返回f1对象\n调用f1.next()时，函数体中的逻辑才开始真正执行，每次调用时会到yield语句结束，并将yield的运算数作为结果返回\nf1.next()返回的结果是一个对象，对yield的运算数做了包装，并带上了done属性\n当done属性为false时，表示该函数逻辑还未执行完，可以调用f1.next()继续执行\n当返回的结果为return语句返回的结果，且done值为true\n返回值中done为true时，仍然可以继续调用，返回的值为undefined\n\nyield和return看个栗子：\n1234567891011function *bar() &#123;    yield 1;    yield 'hello';    return true;    yield 'generator';&#125;let b1 = bar();b1.next();  // Object &#123;value: 1, done: false&#125;b1.next();  // Object &#123;value: \"hello\", done: false&#125;b1.next();  // Object &#123;value: true, done: true&#125;b1.next();  // Object &#123;value: undefined, done: true&#125;\n从上面例子可以看出，当碰到return语句时，返回对象的done属性值就为true，遍历结束，不管后面是否还有yield或者return语句。不管是普通函数还是Generator函数，一旦遇到return语句，便不再返回新的值。\nyield 和 yield*在生成器中，yield* 可以把需要 yield 的值委托给另外一个生成器或者其他任意的可迭代对象。1234567891011121314151617181920function* gen1() &#123;  yield 2;  yield 3;  yield 4;&#125;function* gen2() &#123;  yield 1;  yield* gen1();  yield 5;&#125;var g = gen2();g.next(); // Object &#123; value: 1, done: false &#125;g.next(); // Object &#123; value: 2, done: false &#125;g.next(); // Object &#123; value: 3, done: false &#125;g.next(); // Object &#123; value: 4, done: false &#125;g.next(); // Object &#123; value: 5, done: false &#125;g.next(); // Object &#123; value: undefined, done: true &#125;\n","dateCreated":"2017-03-06T00:00:00+08:00","dateModified":"2018-04-19T20:20:02+08:00","datePublished":"2017-03-06T00:00:00+08:00","description":"Generator生成器","headline":"Generator","image":["js.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/03/06/2017-03-06-Generator/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://localhost:4000/2017/03/06/2017-03-06-Generator/","keywords":"gennerator","thumbnailUrl":"js.png"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"Generator生成器\nGenerator生成器\n生成器（Generators）: 一个更好的方法来构建遍历器。  —  生成器和迭代器\n\n生成器就是一类特殊的函数，特殊之处在于：\n\n字面量（函数声明/函数表达式）的关键字function后面多了一个*，而且这个*前后允许有空白字符，如：\n123function* foo()&#123;&#125;function *foo()&#123;&#125;function*foo()&#123;&#125;\n\n函数体中多了yield运算符\n\n普通函数的执行模式是: 执行-结束, 生成器的执行模式是:  执行-暂停-结束\n\nyield语句yield语句是Generator函数内部可以暂停执行程序的语句，yield语句后面的值可以是各种数据类型，字符串，整数，布尔值等等都可以。\n看个小栗子：123456789101112function *foo() &#123;    yield 1;    yield 'hello';    yield 'generator';    return true;&#125;let f1 = foo();f1.next();  // Object &#123;value: 1, done: false&#125;f1.next();  // Object &#123;value: \"hello\", done: false&#125;f1.next();  // Object &#123;value: \"generator\", done: false&#125;f1.next();  // Object &#123;value: true, done: true&#125;f1.next();  // Object &#123;value: undefined, done: true&#125;\n这个例子反映了生成器的基本用法，有以下几点值得注意：\n\n在调用foo()时，函数体中的逻辑并不会执行（控制台没有输出），直接调用f1.next()时才会执行\nf1是一个对象，它由生成器foo()调用而来，注意foo()并没有返回f1对象\n调用f1.next()时，函数体中的逻辑才开始真正执行，每次调用时会到yield语句结束，并将yield的运算数作为结果返回\nf1.next()返回的结果是一个对象，对yield的运算数做了包装，并带上了done属性\n当done属性为false时，表示该函数逻辑还未执行完，可以调用f1.next()继续执行\n当返回的结果为return语句返回的结果，且done值为true\n返回值中done为true时，仍然可以继续调用，返回的值为undefined\n\nyield和return看个栗子：\n1234567891011function *bar() &#123;    yield 1;    yield 'hello';    return true;    yield 'generator';&#125;let b1 = bar();b1.next();  // Object &#123;value: 1, done: false&#125;b1.next();  // Object &#123;value: \"hello\", done: false&#125;b1.next();  // Object &#123;value: true, done: true&#125;b1.next();  // Object &#123;value: undefined, done: true&#125;\n从上面例子可以看出，当碰到return语句时，返回对象的done属性值就为true，遍历结束，不管后面是否还有yield或者return语句。不管是普通函数还是Generator函数，一旦遇到return语句，便不再返回新的值。\nyield 和 yield*在生成器中，yield* 可以把需要 yield 的值委托给另外一个生成器或者其他任意的可迭代对象。1234567891011121314151617181920function* gen1() &#123;  yield 2;  yield 3;  yield 4;&#125;function* gen2() &#123;  yield 1;  yield* gen1();  yield 5;&#125;var g = gen2();g.next(); // Object &#123; value: 1, done: false &#125;g.next(); // Object &#123; value: 2, done: false &#125;g.next(); // Object &#123; value: 3, done: false &#125;g.next(); // Object &#123; value: 4, done: false &#125;g.next(); // Object &#123; value: 5, done: false &#125;g.next(); // Object &#123; value: undefined, done: true &#125;\n","dateCreated":"2017-03-06T00:00:00+08:00","dateModified":"2018-04-19T20:20:02+08:00","datePublished":"2017-03-06T00:00:00+08:00","description":"Generator生成器","headline":"Generator","image":["js.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/","keywords":"gennerator","thumbnailUrl":"js.png"}</script>
     <meta name="description" content="Generator生成器">
 <meta name="keywords" content="gennerator">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Generator">
-<meta property="og:url" content="http://localhost:4000/2017/03/06/2017-03-06-Generator/index.html">
+<meta property="og:url" content="http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/index.html">
 <meta property="og:site_name" content="Smaug">
 <meta property="og:description" content="Generator生成器">
 <meta property="og:locale" content="zh-cn">
@@ -29,11 +29,11 @@
         
     
     
-        <meta property="og:image" content="http://localhost:4000/assets/images/ava.jpeg"/>
+        <meta property="og:image" content="http://goku-gaga.github.io/assets/images/ava.jpeg"/>
     
     
-        <meta property="og:image" content="http://localhost:4000/2017/03/06/2017-03-06-Generator/js.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="http://localhost:4000/2017/03/06/2017-03-06-Generator/js.png" />
+        <meta property="og:image" content="http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/js.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/js.png" />
     
     
     
@@ -293,7 +293,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2017/03/06/2017-03-06-Generator/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -301,7 +301,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2017/03/06/2017-03-06-Generator/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -309,7 +309,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2017/03/06/2017-03-06-Generator/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -378,7 +378,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2017/03/06/2017-03-06-Generator/" title="分享到 Facebook">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/" title="分享到 Facebook">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i>
                 </a>
             </li>
@@ -386,7 +386,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2017/03/06/2017-03-06-Generator/" title="分享到 Twitter">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/" title="分享到 Twitter">
                     <i class="fa fa-twitter" aria-hidden="true"></i>
                 </a>
             </li>
@@ -394,7 +394,7 @@
             
             
             <li class="post-action hide-xs">
-                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2017/03/06/2017-03-06-Generator/" title="分享到 Google+">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/" title="分享到 Google+">
                     <i class="fa fa-google-plus" aria-hidden="true"></i>
                 </a>
             </li>
@@ -421,7 +421,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2017/03/06/2017-03-06-Generator/">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/">
                     <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
                 </a>
             </li>
@@ -429,7 +429,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2017/03/06/2017-03-06-Generator/">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/">
                     <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
                 </a>
             </li>
@@ -437,7 +437,7 @@
             
             
             <li class="share-option">
-                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2017/03/06/2017-03-06-Generator/">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://goku-gaga.github.io/2017/03/06/2017-03-06-Generator/">
                     <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
                 </a>
             </li>
