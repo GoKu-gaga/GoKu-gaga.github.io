@@ -1,0 +1,506 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Smaug">
+    <title>伪元素与伪类 - Smaug</title>
+    <meta name="author" content="Ivan">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"伪元素与伪类\n伪类与伪元素\n伪类选择器(pseudo-class)：是对于已有元素的一些状态作出对应的样式变化，如我们最熟悉的鼠标悬停时用到的 :hover   \n\n\n伪元素(pseudo-element)：创建一些不存在于dom中的元素，并为其添加样式。如常用的 ::before\n\n语法伪类1selector:pseudo-class &#123; property: value; &#125;\n伪元素1selector::pseudo-element &#123; property: value; &#125;\n注：目前对于伪元素的语法，也是可以使用单冒号的，如 :before，具体使用依个人爱好，大多数浏览器都支持这两个值。\n某些伪类或伪元素仍然处于试验阶段，在使用前建议先在Can I Use等网站查一查其浏览器兼容性。处于试验阶段的伪类或伪元素会在标题中标注。\n一部分常用的伪类/伪元素伪元素\n\n:first-line 为某个元素的第一行文字使用样式； :first-letter 为某个元素中的文字的首字母或第一个字使用样式； :before 在某个元素之前插入一些内容； :after 在某个元素之后插入一些内容；\n\n状态伪类\n\n:link 选择未访问的链接:visited 选择已访问的链接:hover 选择鼠标指针浮动在其上的元素:active 选择活动的链接:focus 选择获取焦点的输入字段 \n\n结构性伪类选择器\n\n\n四个最基本的：root、not、empty、target    \nfirst-child、last-child、nth-child、nth-last-child、    nth-child(odd)、nth-child(even)、nth-last-child(odd)、nth-last-child(even) \nnth-of-type、nth-last-of-type\n\n\n:root()选择器，从字面上我们就可以很清楚的理解是根选择器，他的意思就是匹配元素E所在文档的根元素。在HTML文档中，根元素始终是。“:root”选择器等同于元素；:not()选择器称为否定选择器，和jQuery中的:not选择器一模一样，可以选择除某个元素之外的所有元素；:empty()选择器表示的就是空。用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，哪怕是一个空格；:target()选择器来对页面某个target元素(该元素的id被当做页面中的超链接来使用)指定样式，该样式只在用户点击了页面中的超链接，并且跳转到target元素后起作用；:first-child()选择器表示的是选择父元素的第一个子元素的元素E。简单点理解就是选择元素中的第一个子元素，记住是子元素，而不是后代元素；:nth-child()选择某个元素的一个或多个特定的子元素；:nth-last-child()从某父元素的最后一个子元素开始计算，来选择特定的元素。\n举个栗子1. 中间文字，左右横线使用伪类，准确来说是使用伪元素，:before和:after可以轻松的实现这个需求。\n1234567891011121314151617181920h3.title span &#123;    position: relative;   /*定位横线（当横线的父元素）*/    display: block;     /*设置为块级元素会独占一行形成上下居中的效果*/    font-size: 3em;    color: #212121;&#125;h3.title span:before, h3.title span:after &#123;    content: '';                 /*CSS伪类用法*/    position: absolute;         /*定位背景横线的位置*/    top: 52%;    background: #494949;       /*宽和高做出来的背景横线*/    width: 9%;    height: 2px;&#125;h3.title span:before&#123;    left: 25%;        /*调整背景横线的左右距离*/&#125;h3.title span:after &#123;    right: 25%;&#125;\n2.鼠标移上链接，出现方括号12345678910111213.link &#123;\tposition: relative;\tdisplay: inline-block;\tcolor: #000;  text-decoration: none;  outline: none;\tfont-size: 32px;\tpadding: 5px 10px;&#125;.link:hover::before, .link:hover::after &#123; position: absolute; &#125;.link:hover::before &#123; content: \"\\5B\"; left: -10px; &#125;.link:hover::after &#123; content: \"\\5D\"; right:  -10px; &#125;\nMDN传送门伪类\n伪元素\n","dateCreated":"2018-03-17T00:00:00+08:00","dateModified":"2018-04-19T20:19:23+08:00","datePublished":"2018-03-17T00:00:00+08:00","description":"伪元素与伪类","headline":"伪元素与伪类","image":["css.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/","keywords":"伪类, css","thumbnailUrl":"css.png"}</script>
+    <meta name="description" content="伪元素与伪类">
+<meta name="keywords" content="伪类,css">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="伪元素与伪类">
+<meta property="og:url" content="http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/index.html">
+<meta property="og:site_name" content="Smaug">
+<meta property="og:description" content="伪元素与伪类">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2018-04-19T12:19:23.596Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="伪元素与伪类">
+<meta name="twitter:description" content="伪元素与伪类">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://localhost:4000/assets/images/ava.jpeg"/>
+    
+    
+        <meta property="og:image" content="http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/css.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/css.png" />
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <!--STYLES END-->
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Smaug</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/ava.jpeg" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/ava.jpeg" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Ivan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Bug制造者</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/GoKu-gaga" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            伪元素与伪类
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-03-17T00:00:00+08:00">
+	
+		    3月 17, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/css/">css</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>伪元素与伪类<br><a id="more"></a></p>
+<h3 id="伪类与伪元素"><a href="#伪类与伪元素" class="headerlink" title="伪类与伪元素"></a>伪类与伪元素</h3><blockquote>
+<p>伪类选择器(pseudo-class)：是对于已有元素的一些状态作出对应的样式变化，如我们最熟悉的鼠标悬停时用到的 <code>:hover</code>   </p>
+</blockquote>
+<blockquote>
+<p>伪元素(pseudo-element)：创建一些不存在于dom中的元素，并为其添加样式。如常用的 <code>::before</code></p>
+</blockquote>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>伪类<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">selector</span><span class="selector-pseudo">:pseudo-class</span> &#123; <span class="attribute">property</span>: value; &#125;</span><br></pre></td></tr></table></figure></p>
+<p>伪元素<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">selector</span><span class="selector-pseudo">::pseudo-element</span> &#123; <span class="attribute">property</span>: value; &#125;</span><br></pre></td></tr></table></figure></p>
+<p>注：目前对于伪元素的语法，也是可以使用单冒号的，如 <code>:before</code>，具体使用依个人爱好，大多数浏览器都支持这两个值。</p>
+<p>某些伪类或伪元素仍然处于试验阶段，在使用前建议先在<a href="https://caniuse.com/" target="_blank" rel="noopener">Can I Use</a>等网站查一查其浏览器兼容性。处于试验阶段的伪类或伪元素会在标题中标注。</p>
+<h3 id="一部分常用的伪类-伪元素"><a href="#一部分常用的伪类-伪元素" class="headerlink" title="一部分常用的伪类/伪元素"></a>一部分常用的伪类/伪元素</h3><p>伪元素</p>
+<blockquote>
+<p><code>:first-line</code> 为某个元素的第一行文字使用样式；<br> <code>:first-letter</code> 为某个元素中的文字的首字母或第一个字使用样式；<br> <code>:before</code> 在某个元素之前插入一些内容；<br> <code>:after</code> 在某个元素之后插入一些内容；</p>
+</blockquote>
+<p>状态伪类</p>
+<blockquote>
+<p>:link 选择未访问的链接<br>:visited 选择已访问的链接<br>:hover 选择鼠标指针浮动在其上的元素<br>:active 选择活动的链接<br>:focus 选择获取焦点的输入字段 </p>
+</blockquote>
+<p>结构性伪类选择器</p>
+<blockquote>
+<ol>
+<li>四个最基本的：root、not、empty、target    </li>
+<li>first-child、last-child、nth-child、nth-last-child、    nth-child(odd)、nth-child(even)、nth-last-child(odd)、nth-last-child(even) </li>
+<li>nth-of-type、nth-last-of-type</li>
+</ol>
+</blockquote>
+<p><code>:root()</code>选择器，从字面上我们就可以很清楚的理解是根选择器，他的意思就是匹配元素E所在文档的根元素。在HTML文档中，根元素始终是<html>。“:root”选择器等同于<html>元素；<br><code>:not()</code>选择器称为否定选择器，和jQuery中的:not选择器一模一样，可以选择除某个元素之外的所有元素；<br><code>:empty()</code>选择器表示的就是空。用来选择没有任何内容的元素，这里没有内容指的是一点内容都没有，哪怕是一个空格；<br><code>:target()</code>选择器来对页面某个target元素(该元素的id被当做页面中的超链接来使用)指定样式，该样式只在用户点击了页面中的超链接，并且跳转到target元素后起作用；<br><code>:first-child()</code>选择器表示的是选择父元素的第一个子元素的元素E。简单点理解就是选择元素中的第一个子元素，记住是子元素，而不是后代元素；<br><code>:nth-child()</code>选择某个元素的一个或多个特定的子元素；<br><code>:nth-last-child()</code>从某父元素的最后一个子元素开始计算，来选择特定的元素。</html></html></p>
+<h3 id="举个栗子"><a href="#举个栗子" class="headerlink" title="举个栗子"></a>举个栗子</h3><h4 id="1-中间文字，左右横线"><a href="#1-中间文字，左右横线" class="headerlink" title="1. 中间文字，左右横线"></a>1. <code>中间文字，左右横线</code></h4><p>使用伪类，准确来说是使用伪元素，<code>:before</code>和<code>:after</code>可以轻松的实现这个需求。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">h3</span><span class="selector-class">.title</span> <span class="selector-tag">span</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;   <span class="comment">/*定位横线（当横线的父元素）*/</span></span><br><span class="line">    <span class="attribute">display</span>: block;     <span class="comment">/*设置为块级元素会独占一行形成上下居中的效果*/</span></span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">3em</span>;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#212121</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">h3</span><span class="selector-class">.title</span> <span class="selector-tag">span</span><span class="selector-pseudo">:before</span>, <span class="selector-tag">h3</span><span class="selector-class">.title</span> <span class="selector-tag">span</span><span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">''</span>;                 <span class="comment">/*CSS伪类用法*/</span></span><br><span class="line">    <span class="attribute">position</span>: absolute;         <span class="comment">/*定位背景横线的位置*/</span></span><br><span class="line">    <span class="attribute">top</span>: <span class="number">52%</span>;</span><br><span class="line">    <span class="attribute">background</span>: <span class="number">#494949</span>;       <span class="comment">/*宽和高做出来的背景横线*/</span></span><br><span class="line">    <span class="attribute">width</span>: <span class="number">9%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">h3</span><span class="selector-class">.title</span> <span class="selector-tag">span</span><span class="selector-pseudo">:before</span>&#123;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">25%</span>;        <span class="comment">/*调整背景横线的左右距离*/</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">h3</span><span class="selector-class">.title</span> <span class="selector-tag">span</span><span class="selector-pseudo">:after</span> &#123;</span><br><span class="line">    <span class="attribute">right</span>: <span class="number">25%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-鼠标移上链接，出现方括号"><a href="#2-鼠标移上链接，出现方括号" class="headerlink" title="2.鼠标移上链接，出现方括号"></a>2.鼠标移上链接，出现方括号</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.link</span> &#123;</span><br><span class="line">	<span class="attribute">position</span>: relative;</span><br><span class="line">	<span class="attribute">display</span>: inline-block;</span><br><span class="line">	<span class="attribute">color</span>: <span class="number">#000</span>;</span><br><span class="line">  <span class="attribute">text-decoration</span>: none;</span><br><span class="line">  <span class="attribute">outline</span>: none;</span><br><span class="line">	<span class="attribute">font-size</span>: <span class="number">32px</span>;</span><br><span class="line">	<span class="attribute">padding</span>: <span class="number">5px</span> <span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.link</span><span class="selector-pseudo">:hover</span><span class="selector-pseudo">::before</span>, <span class="selector-class">.link</span><span class="selector-pseudo">:hover</span><span class="selector-pseudo">::after</span> &#123; <span class="attribute">position</span>: absolute; &#125;</span><br><span class="line"><span class="selector-class">.link</span><span class="selector-pseudo">:hover</span><span class="selector-pseudo">::before</span> &#123; <span class="attribute">content</span>: <span class="string">"\5B"</span>; <span class="attribute">left</span>: -<span class="number">10px</span>; &#125;</span><br><span class="line"><span class="selector-class">.link</span><span class="selector-pseudo">:hover</span><span class="selector-pseudo">::after</span> &#123; <span class="attribute">content</span>: <span class="string">"\5D"</span>; <span class="attribute">right</span>:  -<span class="number">10px</span>; &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="MDN传送门"><a href="#MDN传送门" class="headerlink" title="MDN传送门"></a>MDN传送门</h3><p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes" target="_blank" rel="noopener">伪类</a></p>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements" target="_blank" rel="noopener">伪元素</a></p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/css/">css</a> <a class="tag tag--primary tag--small t-link" href="/tags/伪类/">伪类</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" data-tooltip="使用node-ffi调用dll动态库" aria-label="上一篇: 使用node-ffi调用dll动态库">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/11/2018-03-11-模块导出引入的两种规范/" data-tooltip="模块导出引入的两种规范" aria-label="下一篇: 模块导出引入的两种规范">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Ivan. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" data-tooltip="使用node-ffi调用dll动态库" aria-label="上一篇: 使用node-ffi调用dll动态库">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/11/2018-03-11-模块导出引入的两种规范/" data-tooltip="模块导出引入的两种规范" aria-label="下一篇: 模块导出引入的两种规范">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/17/2018-03-17-伪元素与伪类/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/ava.jpeg" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Ivan</h4>
+        
+            <div id="about-card-bio"><p>Bug制造者</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>FE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                广州
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

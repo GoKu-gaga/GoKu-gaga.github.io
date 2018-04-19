@@ -1,0 +1,494 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Smaug">
+    <title>nginx的虚拟主机和反向代理 - Smaug</title>
+    <meta name="author" content="Ivan">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"nginx 虚拟主机的设置及反向代理\n安装ubuntu下1sudo apt-get install nginx\n虚拟主机默认包含默认在 /etc/nginx/nginx.conf 配置文件中会有如下配置：123456789http &#123;  ......  ##  # Virtual Host Configs  ##  include /etc/nginx/conf.d/*.conf;  include /etc/nginx/sites-enabled/*;&#125;\n这表明默认情况下 nginx 会自动包含 /etc/nginx/conf.d/.conf 和 /etc/nginx/sites-enabled/。\n启用站点和可用站点默认情况下，在 /etc/nginx/sites-enabled 下有一个默认站点，这个站点也就是 nginx 安装之后的默认站点：1234$ cd /etc/nginx/sites-enabled$ ls -ltotal 0lrwxrwxrwx 1 root root 34 Oct  6 02:19 default -&gt; /etc/nginx/sites-available/default\n打开 /etc/nginx/sites-available/default 可以看到如下内容：\n123456789101112server &#123;  listen 80 default_server;  listen [::]:80 default_server;  root /var/www/html;  index index.html index.htm index.nginx-debian.html;  server_name _;  location / &#123;          try_files $uri $uri/ =404;  &#125;&#125;\n按照这个文档的建议，最好是在 /etc/nginx/sites-available/ 下建立站点的配置文件，这些站点就是所谓的”可用站点”。然后在 link 到 /etc/nginx/sites-enabled 下开启站点，这些开启的站点就是所谓”启用站点”。\n通过建立链接来控制可用站点的启用。\n实战创建虚拟主机 smaug.top目标： http://smaug.top 和 http://www.smaug.top 应该都指向同一个虚拟主机。\n在 /etc/nginx/sites-available/ 下新建 smaug.top 文件，内容如下：12345678server &#123;  listen 80;  server_name smaug.top www.smaug.top;  root /var/www/smaug.top;  index index.html;&#125;\n然后建立 /var/www/smaug.top 目录，准备好站点的html文件。\n将 smaug.top 站点文件链接到 /etc/nginx/sites-enabled/ 目录：1sudo ln -s /etc/nginx/sites-available/smaug.top /etc/nginx/sites-enabled/smaug.top\n配置完成之后，在重新转载前，先验证一下：123$ sudo nginx -tnginx: the configuration file /etc/nginx/nginx.conf syntax is oknginx: configuration file /etc/nginx/nginx.conf test is successful\n验证通过，再重新装载：1sudo nginx -s reload\n反向代理目标：http://smaug.top 应该指向当前机器上 8800 端口。\n在 /etc/nginx/sites-available/ 下新建 smaug.top 文件，内容如下：12345678910server &#123;  listen 80;  server_name smaug.top;  location /  &#123;    proxy_pass http://127.0.0.1:8800;  &#125;&#125;\n将 smaug.top 站点文件链接到 /etc/nginx/sites-enabled/ 目录：1sudo ln -s /etc/nginx/sites-available/smaug.top /etc/nginx/sites-enabled/smaug.top\n修改完成之后，使用命令检测配置修改结果并重新装载配置：12sudo nginx -tsudo nginx -s reload\n豆瓣接口的代理创建虚拟主机 douban.smaug.top目标：http://douban.smaug.top 应该指向当前机器上运行于 80 端口的 artifactory 服务器。\n在 /etc/nginx/sites-available/ 下新建 douban.smaug.top 文件，内容如下：123456789101112131415server &#123;  listen 80;  listen [::]:80;  server_name douban.smaug.top;  access_log /var/log/nginx/douban.smaug.top-access.log;  error_log /var/log/nginx/douban.smaug.top-error.log;  location / &#123;    proxy_pass https://api.douban.com;    proxy_redirect off;    proxy_set_header Referer &quot;https://www.douban.com&quot;;  &#125;&#125;\n将 douban.smaug.top 站点文件链接到 /etc/nginx/sites-enabled/ 目录：\n1sudo ln -s /etc/nginx/sites-available/douban.smaug.top /etc/nginx/sites-enabled/douban.smaug.top\n部分内容引用自 Nginx学习笔记，再次感谢作者的付出","dateCreated":"2018-04-06T00:00:00+08:00","dateModified":"2018-04-18T15:28:31+08:00","datePublished":"2018-04-06T00:00:00+08:00","description":"nginx 虚拟主机的设置及反向代理","headline":"nginx的虚拟主机和反向代理","image":["n.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/","keywords":"nginx","thumbnailUrl":"n.jpg"}</script>
+    <meta name="description" content="nginx 虚拟主机的设置及反向代理">
+<meta name="keywords" content="nginx">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="nginx的虚拟主机和反向代理">
+<meta property="og:url" content="http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/index.html">
+<meta property="og:site_name" content="Smaug">
+<meta property="og:description" content="nginx 虚拟主机的设置及反向代理">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2018-04-18T07:28:31.559Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="nginx的虚拟主机和反向代理">
+<meta name="twitter:description" content="nginx 虚拟主机的设置及反向代理">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://localhost:4000/assets/images/ava.jpeg"/>
+    
+    
+        <meta property="og:image" content="http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/n.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/n.jpg" />
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <!--STYLES END-->
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Smaug</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/ava.jpeg" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/ava.jpeg" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Ivan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Bug制造者</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/GoKu-gaga" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            nginx的虚拟主机和反向代理
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-04-06T00:00:00+08:00">
+	
+		    4月 06, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/部署/">部署</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>nginx 虚拟主机的设置及反向代理<br><a id="more"></a></p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>ubuntu下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure></p>
+<h3 id="虚拟主机"><a href="#虚拟主机" class="headerlink" title="虚拟主机"></a>虚拟主机</h3><p>默认包含<br>默认在 /etc/nginx/nginx.conf 配置文件中会有如下配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">  ......</span><br><span class="line">  ##</span><br><span class="line">  # Virtual Host Configs</span><br><span class="line">  ##</span><br><span class="line"></span><br><span class="line">  include /etc/nginx/conf.d/*.conf;</span><br><span class="line">  include /etc/nginx/sites-enabled/*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这表明默认情况下 nginx 会自动包含 /etc/nginx/conf.d/<em>.conf 和 /etc/nginx/sites-enabled/</em>。</p>
+<h3 id="启用站点和可用站点"><a href="#启用站点和可用站点" class="headerlink" title="启用站点和可用站点"></a>启用站点和可用站点</h3><p>默认情况下，在 /etc/nginx/sites-enabled 下有一个默认站点，这个站点也就是 nginx 安装之后的默认站点：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cd /etc/nginx/sites-enabled</span><br><span class="line">$ ls -l</span><br><span class="line">total 0</span><br><span class="line">lrwxrwxrwx 1 root root 34 Oct  6 02:19 default -&gt; /etc/nginx/sites-available/default</span><br></pre></td></tr></table></figure></p>
+<p>打开 /etc/nginx/sites-available/default 可以看到如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 80 default_server;</span><br><span class="line">  listen [::]:80 default_server;</span><br><span class="line"></span><br><span class="line">  root /var/www/html;</span><br><span class="line">  index index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">  server_name _;</span><br><span class="line">  location / &#123;</span><br><span class="line">          try_files $uri $uri/ =404;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>按照这个文档的建议，最好是在 /etc/nginx/sites-available/ 下建立站点的配置文件，这些站点就是所谓的”可用站点”。然后在 link 到 /etc/nginx/sites-enabled 下开启站点，这些开启的站点就是所谓”启用站点”。</p>
+<p>通过建立链接来控制可用站点的启用。</p>
+<h4 id="实战"><a href="#实战" class="headerlink" title="实战"></a>实战</h4><p>创建虚拟主机 smaug.top<br>目标： <a href="http://smaug.top" target="_blank" rel="noopener">http://smaug.top</a> 和 <a href="http://www.smaug.top" target="_blank" rel="noopener">http://www.smaug.top</a> 应该都指向同一个虚拟主机。</p>
+<p>在 /etc/nginx/sites-available/ 下新建 smaug.top 文件，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 80;</span><br><span class="line"></span><br><span class="line">  server_name smaug.top www.smaug.top;</span><br><span class="line"></span><br><span class="line">  root /var/www/smaug.top;</span><br><span class="line">  index index.html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后建立 /var/www/smaug.top 目录，准备好站点的html文件。</p>
+<p>将 smaug.top 站点文件链接到 /etc/nginx/sites-enabled/ 目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /etc/nginx/sites-available/smaug.top /etc/nginx/sites-enabled/smaug.top</span><br></pre></td></tr></table></figure></p>
+<p>配置完成之后，在重新转载前，先验证一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nginx -t</span><br><span class="line">nginx: the configuration file /etc/nginx/nginx.conf syntax is ok</span><br><span class="line">nginx: configuration file /etc/nginx/nginx.conf test is successful</span><br></pre></td></tr></table></figure></p>
+<p>验证通过，再重新装载：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -s reload</span><br></pre></td></tr></table></figure></p>
+<h3 id="反向代理"><a href="#反向代理" class="headerlink" title="反向代理"></a>反向代理</h3><p>目标：<a href="http://smaug.top" target="_blank" rel="noopener">http://smaug.top</a> 应该指向当前机器上 8800 端口。</p>
+<p>在 /etc/nginx/sites-available/ 下新建 smaug.top 文件，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 80;</span><br><span class="line"></span><br><span class="line">  server_name smaug.top;</span><br><span class="line"></span><br><span class="line">  location /</span><br><span class="line">  &#123;</span><br><span class="line">    proxy_pass http://127.0.0.1:8800;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>将 smaug.top 站点文件链接到 /etc/nginx/sites-enabled/ 目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /etc/nginx/sites-available/smaug.top /etc/nginx/sites-enabled/smaug.top</span><br></pre></td></tr></table></figure></p>
+<p>修改完成之后，使用命令检测配置修改结果并重新装载配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -t</span><br><span class="line">sudo nginx -s reload</span><br></pre></td></tr></table></figure></p>
+<h4 id="豆瓣接口的代理"><a href="#豆瓣接口的代理" class="headerlink" title="豆瓣接口的代理"></a>豆瓣接口的代理</h4><p>创建虚拟主机 douban.smaug.top<br>目标：<a href="http://douban.smaug.top" target="_blank" rel="noopener">http://douban.smaug.top</a> 应该指向当前机器上运行于 80 端口的 artifactory 服务器。</p>
+<p>在 /etc/nginx/sites-available/ 下新建 douban.smaug.top 文件，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 80;</span><br><span class="line">  listen [::]:80;</span><br><span class="line"></span><br><span class="line">  server_name douban.smaug.top;</span><br><span class="line"></span><br><span class="line">  access_log /var/log/nginx/douban.smaug.top-access.log;</span><br><span class="line">  error_log /var/log/nginx/douban.smaug.top-error.log;</span><br><span class="line"></span><br><span class="line">  location / &#123;</span><br><span class="line">    proxy_pass https://api.douban.com;</span><br><span class="line">    proxy_redirect off;</span><br><span class="line">    proxy_set_header Referer &quot;https://www.douban.com&quot;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>将 douban.smaug.top 站点文件链接到 /etc/nginx/sites-enabled/ 目录：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /etc/nginx/sites-available/douban.smaug.top /etc/nginx/sites-enabled/douban.smaug.top</span><br></pre></td></tr></table></figure>
+<h4 id="部分内容引用自-Nginx学习笔记，再次感谢作者的付出"><a href="#部分内容引用自-Nginx学习笔记，再次感谢作者的付出" class="headerlink" title="部分内容引用自 Nginx学习笔记，再次感谢作者的付出"></a>部分内容引用自 <a href="https://skyao.gitbooks.io/learning-nginx/content/" target="_blank" rel="noopener">Nginx学习笔记</a>，再次感谢作者的付出</h4>
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/nginx/">nginx</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" data-tooltip="使用node-ffi调用dll动态库" aria-label="下一篇: 使用node-ffi调用dll动态库">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Ivan. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/25/2018-03-25-使用node-ffi调用dll动态库/" data-tooltip="使用node-ffi调用dll动态库" aria-label="下一篇: 使用node-ffi调用dll动态库">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/04/06/2018-04-06-nginx的虚拟主机和反向代理/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/ava.jpeg" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Ivan</h4>
+        
+            <div id="about-card-bio"><p>Bug制造者</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>FE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                广州
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

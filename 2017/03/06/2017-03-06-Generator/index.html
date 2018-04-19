@@ -1,0 +1,500 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Smaug">
+    <title>Generator - Smaug</title>
+    <meta name="author" content="Ivan">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"Generator生成器\nGenerator生成器\n生成器（Generators）: 一个更好的方法来构建遍历器。  —  生成器和迭代器\n\n生成器就是一类特殊的函数，特殊之处在于：\n\n字面量（函数声明/函数表达式）的关键字function后面多了一个*，而且这个*前后允许有空白字符，如：\n123function* foo()&#123;&#125;function *foo()&#123;&#125;function*foo()&#123;&#125;\n\n函数体中多了yield运算符\n\n普通函数的执行模式是: 执行-结束, 生成器的执行模式是:  执行-暂停-结束\n\nyield语句yield语句是Generator函数内部可以暂停执行程序的语句，yield语句后面的值可以是各种数据类型，字符串，整数，布尔值等等都可以。\n看个小栗子：123456789101112function *foo() &#123;    yield 1;    yield 'hello';    yield 'generator';    return true;&#125;let f1 = foo();f1.next();  // Object &#123;value: 1, done: false&#125;f1.next();  // Object &#123;value: \"hello\", done: false&#125;f1.next();  // Object &#123;value: \"generator\", done: false&#125;f1.next();  // Object &#123;value: true, done: true&#125;f1.next();  // Object &#123;value: undefined, done: true&#125;\n这个例子反映了生成器的基本用法，有以下几点值得注意：\n\n在调用foo()时，函数体中的逻辑并不会执行（控制台没有输出），直接调用f1.next()时才会执行\nf1是一个对象，它由生成器foo()调用而来，注意foo()并没有返回f1对象\n调用f1.next()时，函数体中的逻辑才开始真正执行，每次调用时会到yield语句结束，并将yield的运算数作为结果返回\nf1.next()返回的结果是一个对象，对yield的运算数做了包装，并带上了done属性\n当done属性为false时，表示该函数逻辑还未执行完，可以调用f1.next()继续执行\n当返回的结果为return语句返回的结果，且done值为true\n返回值中done为true时，仍然可以继续调用，返回的值为undefined\n\nyield和return看个栗子：\n1234567891011function *bar() &#123;    yield 1;    yield 'hello';    return true;    yield 'generator';&#125;let b1 = bar();b1.next();  // Object &#123;value: 1, done: false&#125;b1.next();  // Object &#123;value: \"hello\", done: false&#125;b1.next();  // Object &#123;value: true, done: true&#125;b1.next();  // Object &#123;value: undefined, done: true&#125;\n从上面例子可以看出，当碰到return语句时，返回对象的done属性值就为true，遍历结束，不管后面是否还有yield或者return语句。不管是普通函数还是Generator函数，一旦遇到return语句，便不再返回新的值。\nyield 和 yield*在生成器中，yield* 可以把需要 yield 的值委托给另外一个生成器或者其他任意的可迭代对象。1234567891011121314151617181920function* gen1() &#123;  yield 2;  yield 3;  yield 4;&#125;function* gen2() &#123;  yield 1;  yield* gen1();  yield 5;&#125;var g = gen2();g.next(); // Object &#123; value: 1, done: false &#125;g.next(); // Object &#123; value: 2, done: false &#125;g.next(); // Object &#123; value: 3, done: false &#125;g.next(); // Object &#123; value: 4, done: false &#125;g.next(); // Object &#123; value: 5, done: false &#125;g.next(); // Object &#123; value: undefined, done: true &#125;\n","dateCreated":"2017-03-06T00:00:00+08:00","dateModified":"2018-04-19T20:20:02+08:00","datePublished":"2017-03-06T00:00:00+08:00","description":"Generator生成器","headline":"Generator","image":["js.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017/03/06/2017-03-06-Generator/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://localhost:4000/2017/03/06/2017-03-06-Generator/","keywords":"gennerator","thumbnailUrl":"js.png"}</script>
+    <meta name="description" content="Generator生成器">
+<meta name="keywords" content="gennerator">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Generator">
+<meta property="og:url" content="http://localhost:4000/2017/03/06/2017-03-06-Generator/index.html">
+<meta property="og:site_name" content="Smaug">
+<meta property="og:description" content="Generator生成器">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2018-04-19T12:20:02.482Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Generator">
+<meta name="twitter:description" content="Generator生成器">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://localhost:4000/assets/images/ava.jpeg"/>
+    
+    
+        <meta property="og:image" content="http://localhost:4000/2017/03/06/2017-03-06-Generator/js.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://localhost:4000/2017/03/06/2017-03-06-Generator/js.png" />
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <!--STYLES END-->
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Smaug</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/ava.jpeg" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/ava.jpeg" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Ivan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Bug制造者</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/GoKu-gaga" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Generator
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2017-03-06T00:00:00+08:00">
+	
+		    3月 06, 2017
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/js/">js</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>Generator生成器<br><a id="more"></a></p>
+<h2 id="Generator生成器"><a href="#Generator生成器" class="headerlink" title="Generator生成器"></a>Generator生成器</h2><blockquote>
+<p>生成器（Generators）: 一个更好的方法来构建遍历器。  —  <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Iterators_and_Generators" target="_blank" rel="noopener">生成器和迭代器</a></p>
+</blockquote>
+<p>生成器就是一类特殊的函数，特殊之处在于：</p>
+<ul>
+<li><p>字面量（函数声明/函数表达式）的关键字function后面多了一个<code>*</code>，而且这个<code>*</code>前后允许有空白字符，如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">foo</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> *<span class="title">foo</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span>*<span class="title">foo</span>(<span class="params"></span>)</span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>函数体中多了<code>yield</code>运算符</p>
+</li>
+<li>普通函数的执行模式是: 执行-结束, 生成器的执行模式是:  执行-暂停-结束</li>
+</ul>
+<h4 id="yield语句"><a href="#yield语句" class="headerlink" title="yield语句"></a>yield语句</h4><p>yield语句是Generator函数内部可以暂停执行程序的语句，yield语句后面的值可以是各种数据类型，字符串，整数，布尔值等等都可以。</p>
+<p>看个小栗子：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> *<span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">'hello'</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">'generator'</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> f1 = foo();</span><br><span class="line">f1.next();  <span class="comment">// Object &#123;value: 1, done: false&#125;</span></span><br><span class="line">f1.next();  <span class="comment">// Object &#123;value: "hello", done: false&#125;</span></span><br><span class="line">f1.next();  <span class="comment">// Object &#123;value: "generator", done: false&#125;</span></span><br><span class="line">f1.next();  <span class="comment">// Object &#123;value: true, done: true&#125;</span></span><br><span class="line">f1.next();  <span class="comment">// Object &#123;value: undefined, done: true&#125;</span></span><br></pre></td></tr></table></figure></p>
+<p>这个例子反映了生成器的基本用法，有以下几点值得注意：</p>
+<ol>
+<li>在调用foo()时，函数体中的逻辑并不会执行（控制台没有输出），直接调用f1.next()时才会执行</li>
+<li>f1是一个对象，它由生成器foo()调用而来，注意foo()并没有返回f1对象</li>
+<li>调用f1.next()时，函数体中的逻辑才开始真正执行，每次调用时会到yield语句结束，并将yield的运算数作为结果返回</li>
+<li>f1.next()返回的结果是一个对象，对yield的运算数做了包装，并带上了done属性</li>
+<li>当done属性为false时，表示该函数逻辑还未执行完，可以调用f1.next()继续执行</li>
+<li>当返回的结果为return语句返回的结果，且done值为true</li>
+<li>返回值中done为true时，仍然可以继续调用，返回的值为undefined</li>
+</ol>
+<h4 id="yield和return"><a href="#yield和return" class="headerlink" title="yield和return"></a>yield和return</h4><p>看个栗子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> *<span class="title">bar</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">'hello'</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">yield</span> <span class="string">'generator'</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> b1 = bar();</span><br><span class="line">b1.next();  <span class="comment">// Object &#123;value: 1, done: false&#125;</span></span><br><span class="line">b1.next();  <span class="comment">// Object &#123;value: "hello", done: false&#125;</span></span><br><span class="line">b1.next();  <span class="comment">// Object &#123;value: true, done: true&#125;</span></span><br><span class="line">b1.next();  <span class="comment">// Object &#123;value: undefined, done: true&#125;</span></span><br></pre></td></tr></table></figure>
+<p>从上面例子可以看出，当碰到return语句时，返回对象的done属性值就为true，遍历结束，不管后面是否还有yield或者return语句。不管是普通函数还是Generator函数，一旦遇到return语句，便不再返回新的值。</p>
+<h4 id="yield-和-yield"><a href="#yield-和-yield" class="headerlink" title="yield 和 yield*"></a>yield 和 yield*</h4><p>在生成器中，yield* 可以把需要 yield 的值委托给另外一个生成器或者其他任意的可迭代对象。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">gen1</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">3</span>;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">gen2</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">yield</span>* gen1();</span><br><span class="line">  <span class="keyword">yield</span> <span class="number">5</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> g = gen2();</span><br><span class="line"></span><br><span class="line">g.next(); <span class="comment">// Object &#123; value: 1, done: false &#125;</span></span><br><span class="line">g.next(); <span class="comment">// Object &#123; value: 2, done: false &#125;</span></span><br><span class="line">g.next(); <span class="comment">// Object &#123; value: 3, done: false &#125;</span></span><br><span class="line">g.next(); <span class="comment">// Object &#123; value: 4, done: false &#125;</span></span><br><span class="line">g.next(); <span class="comment">// Object &#123; value: 5, done: false &#125;</span></span><br><span class="line">g.next(); <span class="comment">// Object &#123; value: undefined, done: true &#125;</span></span><br></pre></td></tr></table></figure></p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/gennerator/">gennerator</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/15/2017-03-15-我的chrome插件集/" data-tooltip="我的chrome插件集" aria-label="上一篇: 我的chrome插件集">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2017/03/06/2017-03-06-Generator/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2017/03/06/2017-03-06-Generator/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2017/03/06/2017-03-06-Generator/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Ivan. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2017/03/15/2017-03-15-我的chrome插件集/" data-tooltip="我的chrome插件集" aria-label="上一篇: 我的chrome插件集">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    <a class="post-action-btn btn btn--disabled">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2017/03/06/2017-03-06-Generator/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2017/03/06/2017-03-06-Generator/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2017/03/06/2017-03-06-Generator/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2017/03/06/2017-03-06-Generator/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2017/03/06/2017-03-06-Generator/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2017/03/06/2017-03-06-Generator/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/ava.jpeg" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Ivan</h4>
+        
+            <div id="about-card-bio"><p>Bug制造者</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>FE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                广州
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>

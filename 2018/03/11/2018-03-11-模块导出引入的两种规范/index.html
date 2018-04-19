@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Smaug">
+    <title>模块导出引入的两种规范 - Smaug</title>
+    <meta name="author" content="Ivan">
+    
+    
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg"},"articleBody":"模块导出引入的两种规范exports、module.exports 和 export、export default\n\nrequire: node 和 es6 都支持的引入export / import : 只有es6 支持的导出引入module.exports / exports: 只有 node 支持的导出\n\nexports、module.exports - CommonJS模块规范Node应用由模块组成，采用CommonJS模块规范。\n每个文件就是一个模块，有自己的作用域。在一个文件里面定义的变量、函数、类，都是私有的，对其他文件不可见。\n\nCommonJS定义的模块分为: 模块标识(module)、模块定义(exports) 、模块引用(require)  \n\n为了方便，Node为每个模块提供一个exports变量，指向module.exports。这等同在每个模块头部，有一行这样的命令。\n1var exports = module.exports;\n造成的结果是，在对外输出模块接口时，可以向exports对象添加方法。\n1234567exports.area = function (r) &#123;  return Math.PI * r * r;&#125;;exports.circumference = function (r) &#123;  return 2 * Math.PI * r;&#125;;\n注意，不能直接将exports变量指向一个值，因为这样等于切断了exports与module.exports的联系。1exports = function(x) &#123;console.log(x)&#125;;\n上面这样的写法是无效的，因为exports不再指向module.exports了。\n因此，我们在编写模块时用到的exports对象实际上只是对module.exports的引用。require方能看到的只有module.exports这个对象。\n12345678910111213//utils.jslet a = 100;console.log(module.exports); //能打印出结果为：&#123;&#125;console.log(exports); //能打印出结果为：&#123;&#125;exports.name = 'Tom'; //这里辛苦劳作帮 module.exports 的内容给改成 &#123;name: 'Tom'&#125;exports = 'other'; //这里把exports的指向指走//test.jsvar utils = require('/utils');console.log(utils) // 打印为 &#123;name: 'Tom'&#125;\nexport、export default - ES中的模块导出导入模块功能主要由两个命令构成：export和import。\n\nexport与export default均可用于导出常量、函数、文件、模块等在一个文件或模块中，export、import可以有多个，export default仅有一个通过export方式导出，在导入时要加{ }，export default则不需要export能直接导出变量表达式，export default不行。\n\nexport 命令export命令规定的是对外的接口，必须与模块内部的变量建立一一对应关系。12345678910// 写法一export var m = 1;// 写法二var m = 1;export &#123;m&#125;;// 写法三var n = 1;export &#123;n as m&#125;;\nexport default 命令使用export default命令，为模块指定默认输出。\n123456789// export-default.jsexport default function () &#123;  console.log('foo');&#125;// 不支持以下写法export default const a = &#123;&#125;// 可以这么写const a = &#123;&#125;export default a\nimport 命令由于import是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构。12345678910111213// 报错import &#123; 'f' + 'oo' &#125; from 'my_module';// 报错let module = 'my_module';import &#123; foo &#125; from module;// 报错if (x === 1) &#123;  import &#123; foo &#125; from 'module1';&#125; else &#123;  import &#123; foo &#125; from 'module2';&#125;\n上面三种写法都会报错，因为它们用到了表达式、变量和if结构。在静态分析阶段，这些语法都是没法得到值的。\n","dateCreated":"2018-03-11T00:00:00+08:00","dateModified":"2018-04-19T20:19:34+08:00","datePublished":"2018-03-11T00:00:00+08:00","description":"模块导出引入的两种规范","headline":"模块导出引入的两种规范","image":["es.jpeg"],"mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/"},"publisher":{"@type":"Organization","name":"Ivan","sameAs":["https://github.com/GoKu-gaga"],"image":"ava.jpeg","logo":{"@type":"ImageObject","url":"ava.jpeg"}},"url":"http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/","keywords":"ES6","thumbnailUrl":"es.jpeg"}</script>
+    <meta name="description" content="模块导出引入的两种规范">
+<meta name="keywords" content="ES6">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="模块导出引入的两种规范">
+<meta property="og:url" content="http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/index.html">
+<meta property="og:site_name" content="Smaug">
+<meta property="og:description" content="模块导出引入的两种规范">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2018-04-19T12:19:34.061Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="模块导出引入的两种规范">
+<meta name="twitter:description" content="模块导出引入的两种规范">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="http://localhost:4000/assets/images/ava.jpeg"/>
+    
+    
+        <meta property="og:image" content="http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/es.jpeg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/es.jpeg" />
+    
+    
+    
+    <!--STYLES-->
+    <link rel="stylesheet" href="/assets/css/style-1udptkpril81ozu8ifd8zpujn7ipu7lefxsiu5gxx0dpnzntdx6dusvki3ao.min.css">
+    <!--STYLES END-->
+    
+
+    
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a class="header-title-link" href="/ ">Smaug</a>
+    </div>
+    
+        
+            <a  class="header-right-picture "
+                href="#about">
+        
+        
+            <img class="header-picture" src="/assets/images/ava.jpeg" alt="作者的图片"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a href="/#about">
+                    <img class="sidebar-profile-picture" src="/assets/images/ava.jpeg" alt="作者的图片"/>
+                </a>
+                <h4 class="sidebar-profile-name">Ivan</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Bug制造者</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/ "
+                            
+                            title="首页"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">首页</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-categories"
+                            
+                            title="分类"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">分类</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-tags"
+                            
+                            title="标签"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">标签</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="/all-archives"
+                            
+                            title="归档"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">归档</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link "
+                             href="#about"
+                            
+                            title="关于"
+                        >
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-question" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">关于</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a  class="sidebar-button-link " href="https://github.com/GoKu-gaga" target="_blank" rel="noopener" title="GitHub">
+                    
+                        <i class="sidebar-button-icon fa fa-lg fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            模块导出引入的两种规范
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2018-03-11T00:00:00+08:00">
+	
+		    3月 11, 2018
+    	
+    </time>
+    
+        <span>发布在 </span>
+        
+    <a class="category-link" href="/categories/es6/">es6</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>模块导出引入的两种规范<br><a id="more"></a><br>exports、module.exports 和 export、export default</p>
+<blockquote>
+<p>require: node 和 es6 都支持的引入<br>export / import : 只有es6 支持的导出引入<br>module.exports / exports: 只有 node 支持的导出</p>
+</blockquote>
+<h2 id="exports、module-exports-CommonJS模块规范"><a href="#exports、module-exports-CommonJS模块规范" class="headerlink" title="exports、module.exports - CommonJS模块规范"></a>exports、module.exports - CommonJS模块规范</h2><p>Node应用由模块组成，采用CommonJS模块规范。</p>
+<p>每个文件就是一个模块，有自己的作用域。在一个文件里面定义的变量、函数、类，都是私有的，对其他文件不可见。</p>
+<blockquote>
+<p>CommonJS定义的模块分为: 模块标识(module)、模块定义(exports) 、模块引用(require)  </p>
+</blockquote>
+<p>为了方便，Node为每个模块提供一个exports变量，指向module.exports。这等同在每个模块头部，有一行这样的命令。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> exports = <span class="built_in">module</span>.exports;</span><br></pre></td></tr></table></figure>
+<p>造成的结果是，在对外输出模块接口时，可以向exports对象添加方法。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">exports.area = <span class="function"><span class="keyword">function</span> (<span class="params">r</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Math</span>.PI * r * r;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">exports.circumference = <span class="function"><span class="keyword">function</span> (<span class="params">r</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">2</span> * <span class="built_in">Math</span>.PI * r;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>注意，不能直接将exports变量指向一个值，因为这样等于切断了exports与module.exports的联系。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exports = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;<span class="built_in">console</span>.log(x)&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>上面这样的写法是无效的，因为exports不再指向module.exports了。</p>
+<p>因此，我们在编写模块时用到的exports对象实际上只是对module.exports的引用。require方能看到的只有module.exports这个对象。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//utils.js</span></span><br><span class="line"><span class="keyword">let</span> a = <span class="number">100</span>;</span><br><span class="line"><span class="built_in">console</span>.log(<span class="built_in">module</span>.exports); <span class="comment">//能打印出结果为：&#123;&#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(exports); <span class="comment">//能打印出结果为：&#123;&#125;</span></span><br><span class="line"></span><br><span class="line">exports.name = <span class="string">'Tom'</span>; <span class="comment">//这里辛苦劳作帮 module.exports 的内容给改成 &#123;name: 'Tom'&#125;</span></span><br><span class="line"></span><br><span class="line">exports = <span class="string">'other'</span>; <span class="comment">//这里把exports的指向指走</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//test.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> utils = <span class="built_in">require</span>(<span class="string">'/utils'</span>);</span><br><span class="line"><span class="built_in">console</span>.log(utils) <span class="comment">// 打印为 &#123;name: 'Tom'&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="export、export-default-ES中的模块导出导入"><a href="#export、export-default-ES中的模块导出导入" class="headerlink" title="export、export default - ES中的模块导出导入"></a>export、export default - ES中的模块导出导入</h2><p>模块功能主要由两个命令构成：export和import。</p>
+<blockquote>
+<p>export与export default均可用于导出常量、函数、文件、模块等<br>在一个文件或模块中，export、import可以有多个，export default仅有一个<br>通过export方式导出，在导入时要加{ }，export default则不需要<br>export能直接导出变量表达式，export default不行。</p>
+</blockquote>
+<h4 id="export-命令"><a href="#export-命令" class="headerlink" title="export 命令"></a>export 命令</h4><p>export命令规定的是对外的接口，必须与模块内部的变量建立一一对应关系。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 写法一</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> m = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 写法二</span></span><br><span class="line"><span class="keyword">var</span> m = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> &#123;m&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 写法三</span></span><br><span class="line"><span class="keyword">var</span> n = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> &#123;n <span class="keyword">as</span> m&#125;;</span><br></pre></td></tr></table></figure></p>
+<h4 id="export-default-命令"><a href="#export-default-命令" class="headerlink" title="export default 命令"></a>export default 命令</h4><p>使用export default命令，为模块指定默认输出。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// export-default.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'foo'</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 不支持以下写法</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">const</span> a = &#123;&#125;</span><br><span class="line"><span class="comment">// 可以这么写</span></span><br><span class="line"><span class="keyword">const</span> a = &#123;&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> a</span><br></pre></td></tr></table></figure>
+<h4 id="import-命令"><a href="#import-命令" class="headerlink" title="import 命令"></a>import 命令</h4><p>由于import是静态执行，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 报错</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="string">'f'</span> + <span class="string">'oo'</span> &#125; <span class="keyword">from</span> <span class="string">'my_module'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 报错</span></span><br><span class="line"><span class="keyword">let</span> <span class="built_in">module</span> = <span class="string">'my_module'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; foo &#125; <span class="keyword">from</span> <span class="built_in">module</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 报错</span></span><br><span class="line"><span class="keyword">if</span> (x === <span class="number">1</span>) &#123;</span><br><span class="line">  <span class="keyword">import</span> &#123; foo &#125; <span class="keyword">from</span> <span class="string">'module1'</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="keyword">import</span> &#123; foo &#125; <span class="keyword">from</span> <span class="string">'module2'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面三种写法都会报错，因为它们用到了表达式、变量和if结构。在静态分析阶段，这些语法都是没法得到值的。</p>
+
+            
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">标签</span><br/>
+                
+    <a class="tag tag--primary tag--small t-link" href="/tags/ES6/">ES6</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/17/2018-03-17-伪元素与伪类/" data-tooltip="伪元素与伪类" aria-label="上一篇: 伪元素与伪类">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/10/2018-02-10-搭建shadowsocks/" data-tooltip="搭建shadowsocks" aria-label="下一篇: 搭建shadowsocks">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2018 Ivan. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/03/17/2018-03-17-伪元素与伪类/" data-tooltip="伪元素与伪类" aria-label="上一篇: 伪元素与伪类">
+                
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="hide-xs hide-sm text-small icon-ml">上一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                    <a class="post-action-btn btn btn--default tooltip--top" href="/2018/02/10/2018-02-10-搭建shadowsocks/" data-tooltip="搭建shadowsocks" aria-label="下一篇: 搭建shadowsocks">
+                
+                    <span class="hide-xs hide-sm text-small icon-mr">下一篇</span>
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions" aria-label="Diesen Beitrag teilen">
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Facebook">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Twitter">
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/" title="分享到 Google+">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Nach oben">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <i id="btn-close-shareoptions" class="fa fa-close"></i>
+    <ul class="share-options">
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/">
+                    <i class="fa fa-facebook-official" aria-hidden="true"></i><span>分享到 Facebook</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/">
+                    <i class="fa fa-twitter" aria-hidden="true"></i><span>分享到 Twitter</span>
+                </a>
+            </li>
+        
+            
+            
+            <li class="share-option">
+                <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=http://localhost:4000/2018/03/11/2018-03-11-模块导出引入的两种规范/">
+                    <i class="fa fa-google-plus" aria-hidden="true"></i><span>分享到 Google+</span>
+                </a>
+            </li>
+        
+    </ul>
+</div>
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/ava.jpeg" alt="作者的图片"/>
+        
+            <h4 id="about-card-name">Ivan</h4>
+        
+            <div id="about-card-bio"><p>Bug制造者</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>FE</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker"></i>
+                <br/>
+                广州
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover.jpg');"></div>
+        <!--SCRIPTS-->
+<script src="/assets/js/script-yhuo2grt8r7qkqumzgjoglkfbicl1thukjgmla6jopu56zpcowfedi5zjcor.min.js"></script>
+<!--SCRIPTS END-->
+
+    
+
+
+
+    </body>
+</html>
